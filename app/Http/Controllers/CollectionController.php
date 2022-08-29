@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Collection;
 use App\Http\Requests\StoreCollectionRequest;
 use App\Http\Requests\UpdateCollectionRequest;
+use App\Models\Collection;
+use Illuminate\Support\Str;
 
 class CollectionController extends Controller
 {
@@ -15,7 +16,10 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        //
+        $collections = Collection::all();
+        return view('collection.index', ["title" => "Collection",
+            "collections" => $collections,
+        ]);
     }
 
     /**
@@ -25,7 +29,7 @@ class CollectionController extends Controller
      */
     public function create()
     {
-        //
+        return view('collection.create', ["title" => "Create"]);
     }
 
     /**
@@ -36,7 +40,15 @@ class CollectionController extends Controller
      */
     public function store(StoreCollectionRequest $request)
     {
-        //
+        $collection = new Collection;
+
+        $collection->name = $request->name;
+
+        $collection->slug = Str::of($collection->name)->slug('-');
+
+        $collection->save();
+
+        return redirect('/collection');
     }
 
     /**
@@ -58,7 +70,7 @@ class CollectionController extends Controller
      */
     public function edit(Collection $collection)
     {
-        //
+        return view('collection.edit', ["title" => "Edit", "collection" => $collection]);
     }
 
     /**
@@ -70,7 +82,13 @@ class CollectionController extends Controller
      */
     public function update(UpdateCollectionRequest $request, Collection $collection)
     {
-        //
+        $collection->name = $request->name;
+
+        $collection->slug = Str::of($collection->name)->slug('-');
+
+        $collection->save();
+
+        return redirect('/collection');
     }
 
     /**
@@ -81,6 +99,9 @@ class CollectionController extends Controller
      */
     public function destroy(Collection $collection)
     {
-        //
+        // dd("destroy");
+        $collection->delete();
+
+        return redirect('/collection');
     }
 }

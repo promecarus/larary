@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCollectionRequest extends FormRequest
 {
@@ -13,7 +14,8 @@ class UpdateCollectionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        // return false;
+        return true;
     }
 
     /**
@@ -23,8 +25,11 @@ class UpdateCollectionRequest extends FormRequest
      */
     public function rules()
     {
+        // dd($this->collection);
         return [
-            //
+            'name' => [
+                'required',
+                Rule::unique('collections')->ignore($this->collection->id)],
         ];
     }
 }
