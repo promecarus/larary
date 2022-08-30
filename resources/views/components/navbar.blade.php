@@ -39,9 +39,9 @@
 						<li>
 							<a class="dropdown-item" href="/services/search">Search</a>
 						</li>
-						<li>
+						{{-- <li>
 							<hr class="dropdown-divider">
-						</li>
+						</li> --}}
 						<li>
 							<a class="dropdown-item" href="/services/crud/collection">CRUD Collection</a>
 						</li>

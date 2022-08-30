@@ -2,7 +2,8 @@
 
 @section('container')
 	<h1>{{ $title }}</h1>
-	<form action="{{ route('collection.store') }}" method="POST">
+	{{-- <form action="{{ route('collection.store') }}" method="post"> --}}
+	<form action="/services/crud/collection" method="post">
 		@csrf
 		<div class="mb-3">
 			<label class="form-label" for="name">Name</label>

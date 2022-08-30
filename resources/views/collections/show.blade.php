@@ -1,3 +1,8 @@
+@php
+use App\Models\Book;
+$books = Book::all();
+@endphp
+
 @extends('layouts.main')
 
 @section('container')

@@ -30,7 +30,9 @@ class CollectionController extends Controller
      */
     public function create()
     {
-        return view('collection.create', ["title" => "Create New Collection"]);
+        return view('collection.create', [
+            "title" => "Create New Collection",
+        ]);
     }
 
     /**
@@ -43,9 +45,11 @@ class CollectionController extends Controller
     {
         $collection = new Collection;
         $collection->name = $request->name;
-        // $collection->slug = Str::of($collection->name)->slug('-');
         $collection->slug = SlugService::createSlug(Collection::class, "slug", $collection->name);
         $collection->save();
+        // $request->slug = SlugService::createSlug(Collection::class, "slug", $request->name);
+        // Collection::create($request);
+
         return redirect('services/crud/collection');
     }
 
@@ -57,7 +61,10 @@ class CollectionController extends Controller
      */
     public function show(Collection $collection)
     {
-        //
+        return view("collection.show", [
+            "title" => "Show Collection",
+            "collection" => $collection,
+        ]);
     }
 
     /**
@@ -68,7 +75,10 @@ class CollectionController extends Controller
      */
     public function edit(Collection $collection)
     {
-        return view('collection.edit', ["title" => "Edit Collection", "collection" => $collection]);
+        return view('collection.edit', [
+            "title" => "Edit Collection",
+            "collection" => $collection,
+        ]);
     }
 
     /**
