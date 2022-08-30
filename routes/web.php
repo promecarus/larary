@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\CollectionController;
 use App\Models\Collection;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +22,5 @@ Route::get('/collections/{collection:slug}', function (Collection $collection) {
 });
 
 Route::resource('/services/crud/collection', CollectionController::class);
+
+Route::resource('/services/crud/book', BookController::class);

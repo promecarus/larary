@@ -18,7 +18,8 @@ class CollectionController extends Controller
     public function index()
     {
         $collections = Collection::all();
-        return view('collection.index', ["title" => "Collection",
+        return view("collection.index", [
+            "title" => "Collection",
             "collections" => $collections,
         ]);
     }
@@ -92,6 +93,7 @@ class CollectionController extends Controller
     {
         $collection->name = $request->name;
         $collection->slug = Str::of($collection->name)->slug('-');
+
         $collection->save();
         return redirect('services/crud/collection');
     }

@@ -10,13 +10,13 @@ class Collection extends Model
 {
     use HasFactory, Sluggable;
 
-    protected $guarded = ['id'];
+    protected $_guarded = ['id'];
 
     public function getRouteKeyName()
     {
         return 'slug';
     }
-    
+
     public function sluggable(): array
     {
         return [
@@ -26,7 +26,7 @@ class Collection extends Model
         ];
     }
 
-    public function book()
+    public function books()
     {
         return $this->hasMany(Book::class);
     }
