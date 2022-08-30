@@ -13,20 +13,16 @@
 				</li>
 				{{-- about --}}
 				<li class="nav-item">
-					<a class="nav-link {{ Request::is('/about') ? 'active' : '' }}" href="/about">About</a>
+					<a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="/about">About</a>
 				</li>
 				{{-- collections --}}
 				<li class="nav-item dropdown">
-					<a aria-expanded="false" class="nav-link {{ Request::is('/collections/*') ? 'active' : '' }} dropdown-toggle"
+					<a aria-expanded="false" class="nav-link {{ Request::is('collections*') ? 'active' : '' }} dropdown-toggle"
 						data-bs-toggle="dropdown" href="#" role="button">
 						Collections
 					</a>
 					<ul class="dropdown-menu">
 						{{-- <li><a class="dropdown-item" href="/collections/search">Search</a></li> --}}
-						<li><a class="dropdown-item" href="/search">Search</a></li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
 						{{-- https://www.dps61.org/Page/17444 --}}
 						@foreach ($collections as $c)
 							<li><a class="dropdown-item" href="/collections/{{ $c->slug }}">{{ $c->name }}</a></li>
@@ -35,12 +31,19 @@
 				</li>
 				{{-- services --}}
 				<li class="nav-item dropdown">
-					<a aria-expanded="false" class="nav-link {{ Request::is('/services*') ? 'active' : '' }} dropdown-toggle"
+					<a aria-expanded="false" class="nav-link {{ Request::is('services*') ? 'active' : '' }} dropdown-toggle"
 						data-bs-toggle="dropdown" href="#" role="button">
 						Services
 					</a>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="/services/">a</a>
+						<li>
+							<a class="dropdown-item" href="/services/search">Search</a>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						<li>
+							<a class="dropdown-item" href="/services/crud/collection">CRUD Collection</a>
 						</li>
 					</ul>
 				</li>

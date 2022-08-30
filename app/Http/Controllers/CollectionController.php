@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCollectionRequest;
 use App\Http\Requests\UpdateCollectionRequest;
 use App\Models\Collection;
 use Illuminate\Support\Str;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class CollectionController extends Controller
 {
@@ -29,7 +30,7 @@ class CollectionController extends Controller
      */
     public function create()
     {
-        return view('collection.create', ["title" => "Create"]);
+        return view('collection.create', ["title" => "Create New Collection"]);
     }
 
     /**
@@ -41,14 +42,11 @@ class CollectionController extends Controller
     public function store(StoreCollectionRequest $request)
     {
         $collection = new Collection;
-
         $collection->name = $request->name;
-
-        $collection->slug = Str::of($collection->name)->slug('-');
-
+        // $collection->slug = Str::of($collection->name)->slug('-');
+        $collection->slug = SlugService::createSlug(Collection::class, "slug", $collection->name);
         $collection->save();
-
-        return redirect('/collection');
+        return redirect('services/crud/collection');
     }
 
     /**
@@ -70,7 +68,7 @@ class CollectionController extends Controller
      */
     public function edit(Collection $collection)
     {
-        return view('collection.edit', ["title" => "Edit", "collection" => $collection]);
+        return view('collection.edit', ["title" => "Edit Collection", "collection" => $collection]);
     }
 
     /**
@@ -83,12 +81,9 @@ class CollectionController extends Controller
     public function update(UpdateCollectionRequest $request, Collection $collection)
     {
         $collection->name = $request->name;
-
         $collection->slug = Str::of($collection->name)->slug('-');
-
         $collection->save();
-
-        return redirect('/collection');
+        return redirect('services/crud/collection');
     }
 
     /**
@@ -101,7 +96,6 @@ class CollectionController extends Controller
     {
         // dd("destroy");
         $collection->delete();
-
-        return redirect('/collection');
+        return redirect('services/crud/collection');
     }
 }
