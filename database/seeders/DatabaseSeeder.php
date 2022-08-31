@@ -23,10 +23,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'email_verified_at' => now(),
             'password' => 'admin',
+            'is_admin' => true,
             'remember_token' => Str::random(10),
         ]);
 
-        User::factory(10)->create();
+        User::factory(2)->create();
 
         Collection::factory()->create(
             ['name' => 'General Works', 'slug' => 'general-works']
