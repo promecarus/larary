@@ -10,16 +10,29 @@
 						<button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
 					</div>
 				@endif
+
+				@if (session()->has('signInError'))
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						{{ session('signInError') }}
+						<button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+					</div>
+				@endif
 				<h1 class="h3 fw-normal mb-3">Please sign in</h1>
-				<form action="" method="">
+				<form action="/sign-in" method="post">
 					@csrf
 					<div class="form-floating mb-3">
-						<input autofocus class="form-control" id="floatingInputEmail" placeholder="name@example.com" type="email" />
-						<label for="floatingInputEmail">Email address</label>
+						<input autofocus class="form-control @error('email') is-invalid @enderror" id="email" name="email"
+							placeholder="name@example.com" required type="email" value="{{ old('email') }}" />
+						<label for="email">Email address</label>
+						@error('email')
+							<div class="invalid-feedback">
+								{{ $message }}
+							</div>
+						@enderror
 					</div>
 					<div class="form-floating mb-3">
-						<input class="form-control" id="floatingPassword" placeholder="Password" type="password" />
-						<label for="floatingPassword">Password</label>
+						<input class="form-control" id="password" name="password" placeholder="Password" required type="password" />
+						<label for="password">Password</label>
 					</div>
 					{{-- <div class="checkbox mb-3">
                         <label> <input type="checkbox" value="remember-me" /> Remember me </label>

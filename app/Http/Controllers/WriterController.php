@@ -2,85 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Writer;
 use App\Http\Requests\StoreWriterRequest;
 use App\Http\Requests\UpdateWriterRequest;
+use App\Models\Writer;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class WriterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return view("dashboard.writer.index", [
+            "title" => "Writer",
+            "writers" => Writer::withCount("books")->get(),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('dashboard.writer.create', [
+            "title" => "Create New Writer",
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreWriterRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreWriterRequest $request)
     {
-        //
+        $writer = new Writer;
+        $writer->name = $request->name;
+        $writer->slug = SlugService::createSlug(Writer::class, "slug", $request->name);
+        $writer->save();
+
+        return redirect('/dashboard/writer');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Writer  $writer
-     * @return \Illuminate\Http\Response
-     */
     public function show(Writer $writer)
     {
-        //
+        return view("dashboard.writer.show", [
+            "title" => "Show Writer",
+            "writer" => $writer,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Writer  $writer
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Writer $writer)
     {
-        //
+        return view('dashboard.writer.edit', [
+            "title" => "Edit Writer",
+            "writer" => $writer,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateWriterRequest  $request
-     * @param  \App\Models\Writer  $writer
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateWriterRequest $request, Writer $writer)
     {
-        //
+        if ($writer->name != $request->name) {
+            $writer->slug = SlugService::createSlug(Writer::class, "slug", $request->name);
+        }
+        $writer->name = $request->name;
+
+        $writer->save();
+        return redirect('/dashboard/writer');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Writer  $writer
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Writer $writer)
     {
-        //
+        $writer->delete();
+        return redirect('/dashboard/writer');
     }
 }

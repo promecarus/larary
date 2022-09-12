@@ -10,7 +10,7 @@ class Collection extends Model
 {
     use HasFactory, Sluggable;
 
-    protected $_guarded = ['id'];
+    protected $guarded = ['id'];
 
     public function getRouteKeyName()
     {

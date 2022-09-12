@@ -1,8 +1,3 @@
-@php
-use App\Models\Collection;
-$collections = Collection::all();
-@endphp
-
 <!DOCTYPE html>
 <html lang="en">
 

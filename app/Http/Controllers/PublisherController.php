@@ -2,85 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Publisher;
 use App\Http\Requests\StorePublisherRequest;
 use App\Http\Requests\UpdatePublisherRequest;
+use App\Models\Publisher;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class PublisherController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return view("dashboard.publisher.index", [
+            "title" => "Publisher",
+            "publishers" => Publisher::withCount("books")->get(),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('dashboard.publisher.create', [
+            "title" => "Create New Publisher",
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StorePublisherRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StorePublisherRequest $request)
     {
-        //
+        $publisher = new Publisher;
+        $publisher->name = $request->name;
+        $publisher->slug = SlugService::createSlug(Publisher::class, "slug", $request->name);
+        $publisher->save();
+
+        return redirect('/dashboard/publisher');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Publisher  $publisher
-     * @return \Illuminate\Http\Response
-     */
     public function show(Publisher $publisher)
     {
-        //
+        return view("dashboard.publisher.show", [
+            "title" => "Show Publisher",
+            "publisher" => $publisher,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Publisher  $publisher
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Publisher $publisher)
     {
-        //
+        return view('dashboard.publisher.edit', [
+            "title" => "Edit Publisher",
+            "publisher" => $publisher,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePublisherRequest  $request
-     * @param  \App\Models\Publisher  $publisher
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdatePublisherRequest $request, Publisher $publisher)
     {
-        //
+        if ($publisher->name != $request->name) {
+            $publisher->slug = SlugService::createSlug(Publisher::class, "slug", $request->name);
+        }
+        $publisher->name = $request->name;
+
+        $publisher->save();
+        return redirect('/dashboard/publisher');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Publisher  $publisher
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Publisher $publisher)
     {
-        //
+        $publisher->delete();
+        return redirect('/dashboard/publisher');
     }
 }

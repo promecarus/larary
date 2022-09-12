@@ -5,130 +5,136 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
-use Illuminate\Support\Str;
+use App\Models\Collection;
+use App\Models\Genre;
+use App\Models\Publisher;
+use App\Models\Writer;
+use Illuminate\Support\Facades\Storage;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $books = Book::all();
-        return view("book.index", [
+        return view("dashboard.book.index", [
             "title" => "Book",
-            "books" => $books,
+            "books" => Book::with(["collection", "publisher", "writer", "genres"])->get(),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('book.create', [
+        return view('dashboard.book.create', [
             "title" => "Create New Book",
+            "collections" => Collection::get(),
+            "genres" => Genre::get(),
+            "publishers" => Publisher::get(),
+            "writers" => Writer::get(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreBookRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreBookRequest $request)
     {
         $book = new Book;
         $book->name = $request->name;
-        $book->slug = SlugService::createSlug(Book::class, "slug", $book->name);
-        $book->cover = $request->cover;
-        $book->publication_year = $request->publication_year;
+        $book->slug = SlugService::createSlug(Book::class, "slug", $request->name);
+
+        if ($request->file("cover")) {
+            $book->cover = $request->file("cover")->store("img");
+        }
+
+        $book->publication_date = $request->publication_date;
         $book->total_pages = $request->total_pages;
         $book->isbn = $request->isbn;
         $book->description = $request->description;
         $book->max_quantity = $request->max_quantity;
-        $book->availability = $request->availability;
+        $book->availability = $request->max_quantity;
 
         $book->writer_id = $request->writer_id;
         $book->publisher_id = $request->publisher_id;
         $book->collection_id = $request->collection_id;
-        $book->genre_id = $request->genre_id;
 
         $book->save();
-        return redirect('services/crud/book');
+
+        if ($request->has("genre_id")) {
+            foreach ($request->genre_id as $genre) {
+                $book->genres()->attach($genre);
+            }
+        }
+
+        return redirect('/dashboard/book');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function show(Book $book)
     {
-        return view("book.show", [
+        return view("dashboard.book.show", [
             "title" => "Show Book",
             "book" => $book,
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Book $book)
     {
-        return view('book.edit', [
+        return view('dashboard.book.edit', [
             "title" => "Edit Book",
             "book" => $book,
+            "collections" => Collection::get(),
+            "genres" => Genre::get(),
+            "publishers" => Publisher::get(),
+            "writers" => Writer::get(),
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateBookRequest  $request
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateBookRequest $request, Book $book)
     {
+        if ($book->name != $request->name) {
+            $book->slug = SlugService::createSlug(Collection::class, "slug", $request->name);
+        }
+
         $book->name = $request->name;
-        $book->slug = Str::of($book->name)->slug('-');
-        $book->cover = $request->cover;
-        $book->publication_year = $request->publication_year;
+
+        if ($request->file("cover")) {
+            if ($request->old_cover) {
+                Storage::delete($request->old_cover);
+            }
+            $book->cover = $request->file("cover")->store("img");
+        }
+
+        $book->publication_date = $request->publication_date;
         $book->total_pages = $request->total_pages;
         $book->isbn = $request->isbn;
         $book->description = $request->description;
+
+        if ($request->max_quantity != $book->max_quantity) {
+            $book->availability += $request->max_quantity - $book->max_quantity;
+        }
+
         $book->max_quantity = $request->max_quantity;
-        $book->availability = $request->availability;
 
         $book->writer_id = $request->writer_id;
         $book->publisher_id = $request->publisher_id;
         $book->collection_id = $request->collection_id;
-        $book->genre_id = $request->genre_id;
 
         $book->save();
-        return redirect('services/crud/book');
+
+        $book->genres()->detach();
+
+        if ($request->has("genre_id")) {
+            foreach ($request->genre_id as $genre) {
+                $book->genres()->attach($genre);
+            }
+        }
+
+        return redirect('/dashboard/book');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Book $book)
     {
+        if ($book->cover) {
+            Storage::delete($book->cover);
+        }
+
         $book->delete();
-        return redirect('services/crud/book');
+        return redirect('/dashboard/book');
     }
 }
