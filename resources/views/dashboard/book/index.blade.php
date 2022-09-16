@@ -15,10 +15,10 @@
 						<th class="text-center" scope="col">#</th>
 						<th scope="col">Name</th>
 						<th class="text-center" scope="col">Quantity</th>
-						<th scope="col">Writer</th>
-						<th scope="col">Publisher</th>
 						<th scope="col">Collection</th>
 						<th scope="col">Genre</th>
+						<th scope="col">Publisher</th>
+						<th scope="col">Writer</th>
 						<th class="text-center" scope="col">Action</th>
 					</tr>
 				</thead>
@@ -45,13 +45,13 @@
 								@endif
 							</td>
 							<td>
-								<a class="text-decoration-none" href="/dashboard/writer/{{ $book->writer->slug }}">
-									{{ $book->writer->name }}
+								<a class="text-decoration-none" href="/dashboard/publisher/{{ $book->publisher->slug }}">
+									{{ $book->publisher->name }}
 								</a>
 							</td>
 							<td>
-								<a class="text-decoration-none" href="/dashboard/publisher/{{ $book->publisher->slug }}">
-									{{ $book->publisher->name }}
+								<a class="text-decoration-none" href="/dashboard/writer/{{ $book->writer->slug }}">
+									{{ $book->writer->name }}
 								</a>
 							</td>
 							<td class="text-center">
