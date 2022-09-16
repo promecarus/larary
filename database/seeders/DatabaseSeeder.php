@@ -57,55 +57,6 @@ class DatabaseSeeder extends Seeder
 
         Writer::factory(10)->create();
 
-        Book::factory()->create([
-            "name" => "Judul Buku 1",
-            "slug" => "judul-buku-1",
-            "cover" => null,
-            "publication_date" => "2022-01-02",
-            "total_pages" => 20,
-            "isbn" => "123-123-1234-12-1",
-            "description" => "Sebuah buku pertama",
-            "max_quantity" => 100,
-            "availability" => 100,
-
-            "writer_id" => 1,
-            "publisher_id" => 1,
-            "collection_id" => 1,
-            "genre_id" => 1,
-        ]);
-
-        Book::factory()->create([
-            "name" => "Judul Buku 2",
-            "slug" => "judul-buku-2",
-            "cover" => null,
-            "publication_date" => "2022-02-03",
-            "total_pages" => 20,
-            "isbn" => "123-123-1234-12-2",
-            "description" => "Sebuah buku kedua",
-            "max_quantity" => 100,
-            "availability" => 100,
-
-            "writer_id" => 2,
-            "publisher_id" => 2,
-            "collection_id" => 1,
-            "genre_id" => 2,
-        ]);
-
-        Book::factory()->create([
-            "name" => "Judul Buku 3",
-            "slug" => "judul-buku-3",
-            "cover" => null,
-            "publication_date" => "2022-03-04",
-            "total_pages" => 20,
-            "isbn" => "123-123-1234-12-3",
-            "description" => "Sebuah buku ketiga",
-            "max_quantity" => 100,
-            "availability" => 100,
-
-            "writer_id" => 2,
-            "publisher_id" => 2,
-            "collection_id" => 2,
-            "genre_id" => 2,
-        ]);
+        Book::factory(1000)->create();
     }
 }

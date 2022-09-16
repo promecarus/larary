@@ -17,16 +17,21 @@ class BookFactory extends Factory
      */
     public function definition()
     {
+        $max = fake()->numberBetween(10, 100);
         return [
-            "name" => fake()->words(),
-            // "slug" => fake()->words(),
+            "name" => ucwords(fake()->unique()->words(fake()->numberBetween(2, 5), true)),
             // "cover" => fake()->words(),
-            // "publication_year" => fake()->year(),
-            // "total_pages" => [100],
-            // "isbn" => [fake()->numerify("###-###-####-##-#")],
-            // "description" => [fake()->text(100)],
-            // "max_quantity" => [fake()->randomNumber(5, true)],
-            // "availability" => [fake()->randomNumber(4, true)],
+            "publication_date" => fake()->dateTime(),
+            "total_pages" => fake()->numberBetween(100, 200),
+            "isbn" => fake()->numerify("###-#-##-######-#"),
+            "description" => fake()->sentence(fake()->numberBetween(100, 200)),
+            "max_quantity" => $max,
+            "availability" => $max,
+
+            "collection_id" => fake()->numberBetween(1, 10),
+            "genre_id" => fake()->numberBetween(1, 10),
+            "publisher_id" => fake()->numberBetween(1, 10),
+            "writer_id" => fake()->numberBetween(1, 10),
         ];
     }
 }
