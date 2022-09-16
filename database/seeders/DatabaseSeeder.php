@@ -54,6 +54,8 @@ class DatabaseSeeder extends Seeder
 
         Genre::factory(10)->create();
 
+        Publisher::factory(10)->create();
+
         Writer::factory()->create([
             "name" => "Tere Liye",
             "slug" => "tere-liye",
@@ -62,16 +64,6 @@ class DatabaseSeeder extends Seeder
         Writer::factory()->create([
             "name" => "Ahmad",
             "slug" => "ahmad",
-        ]);
-
-        Publisher::factory()->create([
-            "name" => "Publisher pertama",
-            "slug" => "publisher-pertama",
-        ]);
-
-        Publisher::factory()->create([
-            "name" => "Publisher kedua",
-            "slug" => "publisher-kedua",
         ]);
 
         Book::factory()->create([
