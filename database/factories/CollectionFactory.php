@@ -17,7 +17,7 @@ class CollectionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "name" => ucwords(fake()->unique()->words(fake()->numberBetween(1, 3), true)),
         ];
     }
 }

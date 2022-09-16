@@ -50,60 +50,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory(2)->create();
 
-        Collection::factory()->create([
-            "name" => "General Works",
-            "slug" => "general-works",
-        ]);
-
-        Collection::factory()->create([
-            "name" => "Philosophy",
-            "slug" => "philosophy",
-        ]);
-
-        Collection::factory()->create([
-            "name" => "Religion",
-            "slug" => "religion",
-        ]);
-
-        Collection::factory()->create([
-            "name" => "Social Sciences",
-            "slug" => "social-sciences",
-        ]);
-
-        Collection::factory()->create([
-            "name" => "Language",
-            "slug" => "language",
-        ]);
-
-        Collection::factory()->create([
-            "name" => "Science",
-            "slug" => "science",
-        ]);
-
-        Collection::factory()->create([
-            "name" => "Technology",
-            "slug" => "technology",
-        ]);
-
-        Collection::factory()->create([
-            "name" => "The Arts",
-            "slug" => "the-arts",
-        ]);
-
-        Collection::factory()->create([
-            "name" => "Literature",
-            "slug" => "literature",
-        ]);
-
-        Collection::factory()->create([
-            "name" => "History",
-            "slug" => "history",
-        ]);
-
-        Collection::factory()->create([
-            "name" => "Geography",
-            "slug" => "geography",
-        ]);
+        Collection::factory(10)->create();
 
         Writer::factory()->create([
             "name" => "Tere Liye",
