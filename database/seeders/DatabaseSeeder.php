@@ -56,15 +56,7 @@ class DatabaseSeeder extends Seeder
 
         Publisher::factory(10)->create();
 
-        Writer::factory()->create([
-            "name" => "Tere Liye",
-            "slug" => "tere-liye",
-        ]);
-
-        Writer::factory()->create([
-            "name" => "Ahmad",
-            "slug" => "ahmad",
-        ]);
+        Writer::factory(10)->create();
 
         Book::factory()->create([
             "name" => "Judul Buku 1",
