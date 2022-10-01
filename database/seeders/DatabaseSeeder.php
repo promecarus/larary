@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Book;
+use App\Models\BookGenre;
 use App\Models\Collection;
 use App\Models\Genre;
 use App\Models\Publisher;
@@ -58,5 +59,8 @@ class DatabaseSeeder extends Seeder
         Writer::factory(10)->create();
 
         Book::factory(1000)->create();
+
+        BookGenre::factory(1000)->create();
+        // BookGenre::factory(1000)->create();
     }
 }

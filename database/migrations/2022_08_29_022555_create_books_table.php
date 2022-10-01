@@ -21,7 +21,6 @@ return new class extends Migration
             $table->integer('availability');
 
             $table->foreignId('collection_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('genre_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('publisher_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('writer_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
 

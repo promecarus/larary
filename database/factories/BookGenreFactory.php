@@ -17,7 +17,8 @@ class BookGenreFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "book_id" => fake()->numberBetween(1, 1000),
+            "genre_id" => fake()->numberBetween(1, 10),
         ];
     }
 }

@@ -29,7 +29,6 @@ class BookFactory extends Factory
             "availability" => $max,
 
             "collection_id" => fake()->numberBetween(1, 10),
-            "genre_id" => fake()->numberBetween(1, 10),
             "publisher_id" => fake()->numberBetween(1, 10),
             "writer_id" => fake()->numberBetween(1, 10),
         ];
