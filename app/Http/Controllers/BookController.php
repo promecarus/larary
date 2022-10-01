@@ -18,7 +18,7 @@ class BookController extends Controller
     {
         return view("dashboard.book.index", [
             "title" => "Book",
-            "books" => Book::with(["collection", "publisher", "writer", "genres"])->get(),
+            "books" => Book::with(["collection", "publisher", "writer", "genres"])->get()->sortBy("name"),
         ]);
     }
 
